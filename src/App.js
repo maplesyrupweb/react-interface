@@ -12,6 +12,13 @@ function App() {
   /* intialize empty string */
   let [query,setQuery] = useState("");
 
+  /* sortby state, setSordBy method */
+  /* intialize sort by petName default */
+  
+  let [sortBy, setSortBy] = useState("petName");
+
+  let [orderBy, setOrderBy] = useState('asc');
+
   const filteredAppointments = appointmentList.filter (
     item => {
       return (
@@ -22,7 +29,14 @@ function App() {
         item.id.includes(query)
       )
     }
-  )
+  ).sort((a,b) => {
+    /* asc is smallest to largest */
+    let order = (orderBy === 'asc') ? 1 : -1;
+    return (
+      a[sortBy].toLowerCase() < b[sortBy].toLowerCase() 
+        ? -1 * order : 1 * order
+    )
+  })
 
   const fetchData = useCallback(() => {
     fetch('./data.json')
