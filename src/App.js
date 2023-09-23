@@ -9,6 +9,21 @@ function App() {
 
   let [appointmentList, setAppointmentList] = useState([]);
 
+  /* intialize empty string */
+  let [query,setQuery] = useState("");
+
+  const filteredAppointments = appointmentList.filter (
+    item => {
+      return (
+        item.petName.toLowerCase().includes(query.toLowerCase()) ||
+        item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+        item.aptNotes.toLowerCase().includes(query.toLowerCase()) ||
+        item.aptDate.toLowerCase().includes(query.toLowerCase()) ||
+        item.id.includes(query)
+      )
+    }
+  )
+
   const fetchData = useCallback(() => {
     fetch('./data.json')
     .then(response => response.json())
@@ -25,11 +40,14 @@ function App() {
     <div className="App container mx-auto mt-3 font-thin">
       <h1 className="text-5xl">
         <BiCalendar className="inline-block text-red-400 align-top" />Your Appointments Dude</h1>
-        <Search />
         <AddAppointment />
+        <Search 
+          query={query}
+          onQueryChange={myQuery => setQuery(myQuery)} />
+        
         
         <ul className="divide-y divide-gray-200">
-          {appointmentList
+          {filteredAppointments
             .map(appointment => (
               <AppointmentInfo key={appointment.id} 
                 appointment={appointment}
