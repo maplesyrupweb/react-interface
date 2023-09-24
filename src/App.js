@@ -25,15 +25,13 @@ function App() {
         item.petName.toLowerCase().includes(query.toLowerCase()) ||
         item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
         item.aptNotes.toLowerCase().includes(query.toLowerCase()) ||
-        item.aptDate.toLowerCase().includes(query.toLowerCase()) ||
-        item.id.includes(query)
+        item.aptDate.toLowerCase().includes(query.toLowerCase()) 
       )
     }
-  ).sort((a,b) => {
-    /* asc is smallest to largest */
+  ).sort((a, b) => {
     let order = (orderBy === 'asc') ? 1 : -1;
     return (
-      a[sortBy].toLowerCase() < b[sortBy].toLowerCase() 
+      a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
         ? -1 * order : 1 * order
     )
   })
@@ -50,11 +48,18 @@ function App() {
     fetchData()
   }, [fetchData])
 
+  /* ... is spread operator */
+
+  /* reducer is actually an accumulator */ 
+
   return (
     <div className="App container mx-auto mt-3 font-thin">
       <h1 className="text-5xl">
         <BiCalendar className="inline-block text-red-400 align-top" />Your Appointments Dude</h1>
-        <AddAppointment />
+        <AddAppointment
+          onSendAppointment={myAppointment => setAppointmentList([...appointmentList, myAppointment])}
+          lastId={appointmentList.reduce((max, item) => Number(item.id) > max ? Number(item.id) : max,0 )}
+         />
         <Search 
           query={query}
           onQueryChange={myQuery => setQuery(myQuery)} 
