@@ -5,6 +5,7 @@ import AddAppointment from "./components/AddAppointment";
 import AppointmentInfo from "./components/AppointmentInfo";
 
 
+
 function App() {
 
   let [appointmentList, setAppointmentList] = useState([]);
@@ -18,6 +19,10 @@ function App() {
   let [sortBy, setSortBy] = useState("petName");
 
   let [orderBy, setOrderBy] = useState('asc');
+
+  let onQueryChange = "";
+  let onOrderByChange = "";
+  let onSortByChange = "";
 
   const filteredAppointments = appointmentList.filter (
     item => {
@@ -69,17 +74,31 @@ function App() {
           onSortByChange={mySort => setSortBy(mySort) }
           />
         
+        {console.log("query " + query)}
+        {console.log("onQueryChange " + onQueryChange)}
+        {console.log("orderBy " + orderBy)}
+        {console.log("onOrderByChange " + onOrderByChange)}
+        {console.log("sortBy " + sortBy)}
+        {console.log("onSortByChange " + onSortByChange)}
         
         <ul className="divide-y divide-gray-200">
           {filteredAppointments
             .map(appointment => (
               <AppointmentInfo key={appointment.id} 
                 appointment={appointment}
+
+                // delete an appointment
                 onDeleteAppointment={
                   appointmentId =>
                     setAppointmentList(appointmentList.filter(appointment =>
                       appointment.id !== appointmentId))
+                
+                } // end of delete
+
+                onEditAppointment={
+                  console.log("edit an appointment")
                 }
+
               />
           ))
           }

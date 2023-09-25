@@ -43,12 +43,17 @@ setToggleForm(!toggleForm);
         toggleForm &&
         <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4">
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+
+            {/* add appointment form */}
+            {/* ...formData is spread operator */}
+
             <label htmlFor="ownerName" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
               Owner Name
           </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input 
                 type="text" 
+                // repeated for every form input field
                 onChange={(event) => {setFormData({...formData, owerName: event.target.value})}}
                 value={formData.owerNameName}
                 name="ownerName" 
