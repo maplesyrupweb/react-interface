@@ -14,15 +14,18 @@ function App() {
   let [query,setQuery] = useState("");
 
   /* sortby state, setSordBy method */
-  /* intialize sort by petName default */
-  
-  let [sortBy, setSortBy] = useState("petName");
 
-  let [orderBy, setOrderBy] = useState('asc');
+  /*default sort order is by largest ID */
+
+  let [sortBy, setSortBy] = useState("id");
+
+  let [orderBy, setOrderBy] = useState('desc');
 
   let onQueryChange = "";
   let onOrderByChange = "";
   let onSortByChange = "";
+
+  console.log("Number of appointments " + appointmentList.length)
 
   const filteredAppointments = appointmentList.filter (
     item => {
@@ -30,11 +33,14 @@ function App() {
         item.petName.toLowerCase().includes(query.toLowerCase()) ||
         item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
         item.aptNotes.toLowerCase().includes(query.toLowerCase()) ||
-        item.aptDate.toLowerCase().includes(query.toLowerCase()) 
+        item.aptDate.toLowerCase().includes(query.toLowerCase()) ||
+        item.id.incudes(query)
       )
     }
+    
   ).sort((a, b) => {
     let order = (orderBy === 'asc') ? 1 : -1;
+    {console.log("*** OrderBy is ASC *** " + (orderBy === 'asc') )}
     return (
       a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
         ? -1 * order : 1 * order
@@ -83,16 +89,18 @@ function App() {
         
         <ul className="divide-y divide-gray-200">
           {filteredAppointments
+            //map creates a new array
             .map(appointment => (
-              <AppointmentInfo key={appointment.id} 
+              <AppointmentInfo 
+                key={appointment.id} 
                 appointment={appointment}
 
                 // delete an appointment
                 onDeleteAppointment={
                   appointmentId =>
+                    // filter creates a new array
                     setAppointmentList(appointmentList.filter(appointment =>
                       appointment.id !== appointmentId))
-                
                 } // end of delete
 
                 onEditAppointment={
